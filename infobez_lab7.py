@@ -1,3 +1,9 @@
+def valid(sentence: str):
+    # функция для проверки валидности ключа и алфавита
+    # количество уникальных значений в ключе совпадает с длиной ключа
+    # должно выполняться для успешного шифрования и дешифрования
+    return len(set(list(sentence))) == len(sentence)
+
 # выносим как константы алфавит и его размер
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ALPH_SIZE = len(alphabet)
@@ -10,6 +16,8 @@ KEY_SIZE = len(key)
 # если это не выполнится, то невозможно закодировать что-либо
 # при данных параметрах
 assert KEY_SIZE <= ALPH_SIZE, "KEY_SIZE > ALPH_SIZE"
+assert valid(key), "в ключе есть повторяющиеся символы"
+assert valid(alphabet), "в алфавите есть повторяющиеся символы"
 
 # строим таблицу Виженера
 table = [["" for i in range(ALPH_SIZE + 1)] for _ in range(ALPH_SIZE + 1)]
@@ -61,13 +69,13 @@ def encode(text: str, de: bool = False, way: str = ''):
     # возвращаем зашифрованную строку
     return res
 
-word = input().upper()
+sentence = input().upper()
 
 # тестирование
-encoded_word_table = encode(word, way='table')
-encoded_word_formula = encode(word)
-assert encoded_word_table == encoded_word_formula, "методы дают разный результат"
-res_dec = encode(encoded_word_formula, de=True)
-assert word == res_dec, "неправильный алгоритм расшифровки"
+encoded_sentence_table = encode(sentence, way='table')
+encoded_sentence_formula = encode(sentence)
+assert encoded_sentence_table == encoded_sentence_formula, "методы дают разный результат"
+res_dec = encode(encoded_sentence_formula, de=True)
+assert sentence == res_dec, "неправильный алгоритм расшифровки"
 # итоговый результат
-print(word, "->", encoded_word_formula, sep="\n")
+print(sentence, "->", encoded_sentence_formula, sep="\n")
